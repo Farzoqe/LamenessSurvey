@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
+use App\AnswerSet;
 use App\Survey;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        return view('welcome',[
+        return view('welcome', [
             'items' => Survey::all(),
 
         ]);
@@ -93,5 +95,31 @@ class SurveyController extends Controller
     function json()
     {
         return response()->json(Survey::with("questions")->get());
+    }
+
+    function saveAnswers(Request $request)
+    {
+        foreach ($request->data as $survey) {
+            $surveyId = $survey->surveyId;
+            $optionAnswers = $survey->optionAnswers;
+            $comments = $survey->comments;
+            $set = AnswerSet::create(['survey_id' => $surveyId]);
+            foreach ($optionAnswers as $qid => $options) {
+                $selectedOptions = [];
+                foreach ($options as $option => $isSelected) {
+                    if ($isSelected == 'true') {
+                        $selectedOptions[] = $option;
+                    }
+                }
+                Answer::create([
+                    'answer_set_id' => $set->id,
+                    'comment' => $comments[$qid],
+                    'options' => implode(', ', $selectedOptions),
+                    'question_id' => $qid,
+                ]);
+            }
+
+        }
+        return response()->json(['status' => 'success']);
     }
 }

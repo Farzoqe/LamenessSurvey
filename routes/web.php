@@ -13,7 +13,10 @@
 
 Route::get('/', 'SurveyController@index');
 Route::get('/get-surveys', 'SurveyController@json');
+Route::post('/save-answers', 'SurveyController@saveAnswers');
 Route::resources([
     'survey' => 'SurveyController',
+    'answer-set' => 'AnswerSetController',
+    'answer' => 'AnswerController',
     'questions' => 'QuestionController'
 ]);

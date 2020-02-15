@@ -46,7 +46,7 @@
                 <span>Surveys</span></a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link" href="/answers">
+            <a class="nav-link" href="/answer-set">
                 <i class="fas fa-fw fa-list"></i>
                 <span>Answers</span></a>
         </li>
