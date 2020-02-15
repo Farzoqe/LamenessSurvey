@@ -46,7 +46,9 @@ class AnswerSetController extends Controller
      */
     public function show(AnswerSet $answerSet)
     {
-        //
+        return view("answers", [
+            'items' => $answerSet->answers
+        ]);
     }
 
     /**

@@ -10,6 +10,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Survey</th>
                             <th>Date</th>
                             <th>Show Answers</th>
@@ -18,6 +19,7 @@
                         </thead>
                         <tfoot>
                         <tr>
+                            <th>ID</th>
                             <th>Survey</th>
                             <th>Date</th>
                             <th>Show Answers</th>
@@ -27,6 +29,7 @@
                         <tbody>
                         @foreach($items as $item)
                             <tr>
+                                <td>{{$item->id}}</td>
                                 <td>{{$item->survey->title ?? ''}}</td>
                                 <td>{{$item->created_at->toDateString()}}</td>
                                 <td><a href="/answer-set/{{$item->id}}">Show Answers</a></td>

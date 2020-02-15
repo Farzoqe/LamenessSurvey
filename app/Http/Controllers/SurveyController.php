@@ -99,10 +99,17 @@ class SurveyController extends Controller
 
     function saveAnswers(Request $request)
     {
-        foreach ($request->data as $survey) {
-            $surveyId = $survey->surveyId;
-            $optionAnswers = $survey->optionAnswers;
-            $comments = $survey->comments;
+//        dd($request->all());
+//        mail('farzoqe@gmail.com', 'String request data', json_encode($request->all()));
+        foreach ($request->data ?? [] as $surveyData) {
+            $surveyId = $surveyData['surveyId'];
+            $optionAnswers = $surveyData['optionAnswers'];
+//            $comments = [];
+            foreach ($surveyData['comments'] as $qid => $comment) {
+                if (!isset($optionAnswers[$qid])) {
+                    $optionAnswers[$qid] = [];
+                }
+            }
             $set = AnswerSet::create(['survey_id' => $surveyId]);
             foreach ($optionAnswers as $qid => $options) {
                 $selectedOptions = [];
@@ -113,7 +120,7 @@ class SurveyController extends Controller
                 }
                 Answer::create([
                     'answer_set_id' => $set->id,
-                    'comment' => $comments[$qid],
+                    'comment' => $surveyData['comments'][$qid] ?? null,
                     'options' => implode(', ', $selectedOptions),
                     'question_id' => $qid,
                 ]);
