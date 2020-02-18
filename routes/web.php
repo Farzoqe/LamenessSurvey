@@ -11,8 +11,14 @@
 |
 */
 
+use Illuminate\Support\Facades\Artisan;
+
 Route::get('/', 'SurveyController@index');
 Route::get('/get-surveys', 'SurveyController@json');
+Route::get('/export/{sid}', 'SurveyController@export');
+Route::get('/command/{commnad}', function ($command) {
+    Artisan::call($command);
+});
 Route::post('/save-answers', 'SurveyController@saveAnswers');
 Route::resources([
     'survey' => 'SurveyController',

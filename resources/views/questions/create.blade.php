@@ -13,17 +13,24 @@
                         <input type="text" name="title" class="form-control" placeholder="Title"/>
                     </div>
                     <div class="form-group">
+                        <input type="text" name="title_ur" class="form-control" placeholder="Title Urdu"/>
+
+                    </div>
+                    <div class="form-group">
                         <select class="form-control" name="type">
                             <option>Short Answer</option>
                             <option>Multiple Choice</option>
                             <option>Long Answer</option>
                             <option>Ranking</option>
                             <option>Picture</option>
-                            <option>Location</option>
+{{--                            <option>Location</option>--}}
                         </select>
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" placeholder="Options" name="options"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Options Urdu" name="options_ur"></textarea>
                     </div>
                 </div>
                 <div class="card-footer text-right">

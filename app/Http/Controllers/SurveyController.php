@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\AnswerSet;
+use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
 
@@ -113,20 +114,64 @@ class SurveyController extends Controller
             $set = AnswerSet::create(['survey_id' => $surveyId]);
             foreach ($optionAnswers as $qid => $options) {
                 $selectedOptions = [];
-                foreach ($options as $option => $isSelected) {
-                    if ($isSelected == 'true') {
-                        $selectedOptions[] = $option;
+                $question = Question::find($qid);
+                if ($question) {
+                    if ($question->type == 'Picture') {
+                        if ($options) {
+                            $file = uniqid("uploads/") . ".jpg";
+                            file_put_contents(public_path($file), base64_decode($options));
+                            $selectedOptions[] = url($file);
+                        }
+                    } elseif ($question->type == 'Ranking') {
+                        $selectedOptions = $options;
+                    } else {
+                        foreach ($options as $option => $isSelected) {
+                            if ($isSelected == 'true') {
+                                $selectedOptions[] = $option;
+                            }
+                        }
                     }
+                    Answer::create([
+                        'answer_set_id' => $set->id,
+                        'comment' => $surveyData['comments'][$qid] ?? null,
+                        'options' => implode(', ', $selectedOptions),
+                        'question_id' => $qid,
+                    ]);
                 }
-                Answer::create([
-                    'answer_set_id' => $set->id,
-                    'comment' => $surveyData['comments'][$qid] ?? null,
-                    'options' => implode(', ', $selectedOptions),
-                    'question_id' => $qid,
-                ]);
             }
 
         }
         return response()->json(['status' => 'success']);
+    }
+
+    function export($id)
+    {
+        $survey = Survey::findOrFail($id);
+        $answerSets = $survey->answer_sets;
+        $file = "exports/" . time() . '.csv';
+        $handle = fopen($file, "w+");
+        $heads = [];
+        foreach ($survey->questions as $question) {
+            $heads[] = $question->title;
+            $heads[] = '';
+        }
+        fputcsv($handle, $heads);
+        foreach ($answerSets as $answerSet) {
+            $values = [];
+            foreach ($survey->questions as $question) {
+                $answer = $answerSet->answers()->where("question_id", $question->id)->first();
+                if ($answer) {
+                    $values[] = $answer->options;
+                    $values[] = $answer->comment;
+                } else {
+                    $values[] = '';
+                    $values[] = '';
+                }
+            }
+            fputcsv($handle, $values);
+        }
+        fclose($handle);
+        return response()->download(public_path($file), "survey-$survey->title-export.csv");
+
     }
 }

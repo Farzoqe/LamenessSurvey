@@ -12,4 +12,9 @@ class Survey extends Model
     {
         return $this->hasMany(Question::class);
     }
+
+    function answer_sets()
+    {
+        return $this->hasMany(AnswerSet::class);
+    }
 }

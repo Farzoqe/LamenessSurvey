@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Questions</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Answers</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -12,14 +12,15 @@
                         <tr>
                             <th>Question</th>
                             <th>Options</th>
-                            <th>Comment</th>
+                            <th>Comment/ Answers</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
                             <th>Question</th>
                             <th>Options</th>
-                            <th>Comment</th>
+
+                            <th>Comment/ Answers</th>
                         </tr>
                         </tfoot>
                         <tbody>

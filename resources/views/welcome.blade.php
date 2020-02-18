@@ -29,6 +29,7 @@
                             <th>Title</th>
                             <th>Add Question</th>
                             <th>View Questions</th>
+                            <th>Export</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -37,6 +38,7 @@
                             <th>Title</th>
                             <th>Add Question</th>
                             <th>View Questions</th>
+                            <th>Export</th>
                             <th>Delete</th>
                         </tr>
                         </tfoot>
@@ -46,6 +48,7 @@
                                 <td>{{$item->title}}</td>
                                 <td><a href="/questions/create?sid={{$item->id}}">Add Question</a></td>
                                 <td><a href="/questions?sid={{$item->id}}">View Questions</a></td>
+                                <td><a href="/export/{{$item->id}}">Export</a></td>
                                 <td><a href="javascript:;" class="text-danger" onclick="$(this).next().submit()">Delete</a>
                                     <form method="post" action="/survey/{{$item->id}}">
                                         @method("delete")
