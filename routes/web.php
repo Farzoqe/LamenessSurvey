@@ -32,10 +32,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 });
 
 Auth::routes();
-
-
-
-
 Route::any('/git-update', function () {
     shell_exec("cd .. && git fetch --all && git reset --hard origin/master && php artisan migrate");
 });
