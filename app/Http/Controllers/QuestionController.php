@@ -14,8 +14,8 @@ class QuestionController extends Controller
      */
     public function index(Request $request)
     {
-        return view("questions.index",[
-            'items'=>Question::whereSurveyId($request->sid)->get()
+        return view("questions.index", [
+            'items' => Question::whereSurveyId($request->sid)->get()
         ]);
 
     }
@@ -38,7 +38,9 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        Question::create($request->all());
+        $item = $request->id ? Question::findOrFail($request->id) : new Question;
+        $item->fill($request->all())->save();
+//        Question::create($request->all());
         return redirect()->back();
 
     }
@@ -62,7 +64,8 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        return view("questions.create", ['item' => $question]);
+
     }
 
     /**

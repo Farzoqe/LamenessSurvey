@@ -13,16 +13,23 @@
 
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/', 'SurveyController@index');
-Route::get('/get-surveys', 'SurveyController@json');
-Route::get('/export/{sid}', 'SurveyController@export');
-Route::get('/command/{commnad}', function ($command) {
-    Artisan::call($command);
+
+Route::middleware("auth")->group(function () {
+    Route::get('/', 'SurveyController@index');
+    Route::get('/get-surveys', 'SurveyController@json');
+    Route::get('/export/{sid}', 'SurveyController@export');
+    Route::get('/command/{commnad}', function ($command) {
+        Artisan::call($command);
+    });
+    Route::post('/save-answers', 'SurveyController@saveAnswers');
+    Route::resources([
+        'survey' => 'SurveyController',
+        'answer-set' => 'AnswerSetController',
+        'answer' => 'AnswerController',
+        'questions' => 'QuestionController'
+    ]);
+Route::get('/home', 'HomeController@index')->name('home');
 });
-Route::post('/save-answers', 'SurveyController@saveAnswers');
-Route::resources([
-    'survey' => 'SurveyController',
-    'answer-set' => 'AnswerSetController',
-    'answer' => 'AnswerController',
-    'questions' => 'QuestionController'
-]);
+
+Auth::routes();
+

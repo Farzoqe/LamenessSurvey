@@ -13,6 +13,7 @@
                             <th>Title</th>
                             <th>Options</th>
                             <th>Type</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -21,6 +22,7 @@
                             <th>Title</th>
                             <th>Options</th>
                             <th>Type</th>
+                            <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </tfoot>
@@ -30,6 +32,7 @@
                                 <td>{{$item->title}}</td>
                                 <td>{{$item->options}}</td>
                                 <td>{{$item->type}}</td>
+                                <td><a href="/questions/{{$item->id}}/edit" class="">Edit</a></td>
                                 <td><a href="javascript:;" class="text-danger" onclick="$(this).next().submit()">Delete</a>
                                     <form method="post" action="/questions/{{$item->id}}">
                                         @method("delete")
