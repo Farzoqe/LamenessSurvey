@@ -150,6 +150,8 @@ class SurveyController extends Controller
         $answerSets = $survey->answer_sets;
         $file = "exports/" . time() . '.csv';
         $handle = fopen($file, "w+");
+        fprintf($handle, chr(0xEF).chr(0xBB).chr(0xBF));
+
         $heads = [];
         foreach ($survey->questions as $question) {
             $heads[] = $question->title;
